@@ -1,0 +1,31 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Créer une voiture</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<form (ngSubmit)="saveCar()">
+		<ion-item>
+			<ion-label position="floating">Marque</ion-label>
+			<ion-input [(ngModel)]="car.brand" name="brand"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label position="floating">Modèle</ion-label>
+			<ion-input [(ngModel)]="car.model" name="model"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label position="floating">Plaque</ion-label>
+			<ion-input [(ngModel)]="car.plate" name="plate"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label>Photo avant</ion-label>
+			<input type="file" (change)="onFileChange($event, 'photoFront')" />
+		</ion-item>
+		<ion-item>
+			<ion-label>Photo arrière</ion-label>
+			<input type="file" (change)="onFileChange($event, 'photoRear')" />
+		</ion-item>
+		<ion-button expand="full" type="submit">Enregistrer</ion-button>
+	</form>
+</ion-content>

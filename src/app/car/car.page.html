@@ -1,0 +1,21 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Liste des voitures</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="onCreationCar()">Ajouter</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-item *ngFor="let car of cars" (click)="seeDetailsCar(car)">
+			<ion-thumbnail slot="start">
+				<img [src]="car.photo" />
+			</ion-thumbnail>
+			<ion-label>
+				<h2>{{ car.brand }} - {{ car.model }}</h2>
+			</ion-label>
+		</ion-item>
+	</ion-list>
+</ion-content>

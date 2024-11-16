@@ -1,0 +1,68 @@
+@import 'src/app/app.component.scss';
+
+
+.login {
+	padding: 16px;
+	text-align: center;
+
+	ion-item {
+		margin-bottom: 12px;
+	}
+
+	// Style de l'icône de l'œil pour le mot de passe
+	#icon-eye {
+		display: block;
+		position: absolute;
+		right: 15px;
+		top: 26px;
+		cursor: pointer;
+		color: $icon-color;
+	}
+
+	// Styles pour le conteneur du bouton
+	.container-button {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+
+		ion-button {
+			width: 80%;
+		}
+	}
+
+	// Style pour les messages d'erreur
+	.span-error {
+		color: $error-color;
+		font-size: 0.85rem;
+		margin-top: 5px;
+		display: block;
+		text-align: left;
+	}
+
+	// Styles pour le lien d'inscription
+	.register-link {
+		margin-top: 20px;
+
+		a {
+			color: $primary-color;
+			text-decoration: underline;
+			cursor: pointer;
+			font-size: 0.9rem;
+
+			&:hover {
+				color: $primary-hover-color;
+			}
+		}
+	}
+
+	// Responsive pour les écrans plus petits
+	@media (max-width: 768px) {
+		padding: 10px;
+
+		.container-button {
+			ion-button {
+				width: 90%;
+			}
+		}
+	}
+}
