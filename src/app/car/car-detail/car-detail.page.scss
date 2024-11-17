@@ -1,0 +1,37 @@
+@import 'src/app/app.component.scss';
+
+.car-details {
+
+	.image-row {
+		justify-content: center;
+	}
+
+	.image-column {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		ion-img {
+			width: 100%;
+			height: auto;
+			border-radius: 8px;
+			object-fit: contain;
+		}
+	}
+
+	ion-card {
+		border-radius: 8px;
+	}
+
+}
+
+ion-icon {
+	padding: 20px;
+	font-size: 20px;
+	cursor: pointer;
+
+	&:hover {
+		color: var(--ion-color-primary);
+		transform: scale(1.1);
+	}
+}

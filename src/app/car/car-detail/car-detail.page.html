@@ -1,9 +1,33 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>Détail de la voiture</ion-title>
+		<ion-title>Car Details</ion-title>
+		<ion-icon slot="end" name="return-up-back-outline" (click)="onSeeCars()"></ion-icon>
+		<ion-icon slot="end" name="power-outline" (click)="onLogout()"></ion-icon>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-	<p>Afficher les informations de la voiture avec l'ID : {{ carId }}</p>
+<ion-content class="car-details" [fullscreen]="true">
+	@if (car) {
+	<ion-grid>
+		<ion-row class="image-row">
+			<ion-col size="12" size-lg="5" class="image-column">
+				<ion-img [src]="car.frontPhotoUrl" alt="Car Front Photo"></ion-img>
+			</ion-col>
+			<ion-col size="12" size-lg="5" class="image-column">
+				<ion-img [src]="car.backPhotoUrl" alt="Car Back Photo"></ion-img>
+			</ion-col>
+		</ion-row>
+
+		<ion-row>
+			<ion-col size="12">
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
+						<ion-card-subtitle>License Plate: {{ car.licensePlate }}</ion-card-subtitle>
+					</ion-card-header>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	}
 </ion-content>

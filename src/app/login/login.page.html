@@ -1,61 +1,51 @@
-<ion-header [translucent]="true">
-	<ion-toolbar>
-		<ion-title>Login</ion-title>
-	</ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true" class="login">
-	<div>
-		<form [formGroup]="loginForm">
-			<ion-item>
-				<ion-input
-					label="E-mail"
-					labelPlacement="stacked"
-					placeholder="email@example.com"
-					formControlName="email"
-				>
-				</ion-input>
-			</ion-item>
-			@if (loginForm.get('email')?.dirty) {
-				@if (loginForm.get('email')?.errors?.['required']) {
-					<span class="span-error">This field is required</span>
-				}
+	<ion-grid>
+		<ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100vh;">
+			<ion-col size="12" size-md="6" size-lg="4">
+				<div class="form-container">
+					<form [formGroup]="loginForm">
+						<ion-item>
+							<ion-input label="E-mail" labelPlacement="stacked" placeholder="email@example.com"
+								formControlName="email"></ion-input>
+						</ion-item>
+						@if (loginForm.get('email')?.dirty) {
+						@if (loginForm.get('email')?.errors?.['required']) {
+						<span class="span-error">Email is required</span>
+						}
 
-				@if (loginForm.get('email')?.errors?.['email']) {
-					<span class="span-error">Your e-mail is invalid.</span>
-				}
-			}
+						@if (loginForm.get('email')?.errors?.['invalidEmail']) {
+						<span class="span-error">Your e-mail is invalid.</span>
+						}
+						}
 
-			<ion-item>
-				<ion-input
-					label="Password"
-					labelPlacement="stacked"
-					[type]="passwordType"
-					placeholder="***********"
-					formControlName="password"
-				>
-				</ion-input>
-				<ion-icon id="icon-eye" [name]="passwordIcon" (click)="onToggleShowPassword()"></ion-icon>
-			</ion-item>
-			@if (loginForm.get('password')?.dirty) {
-				@if (loginForm.get('password')?.errors?.['required']) {
-					<span class="span-error">This field is required</span>
-				}
+						<ion-item>
+							<ion-input label="Password" labelPlacement="stacked" [type]="passwordType"
+								placeholder="***********" formControlName="password"></ion-input>
+							<ion-icon id="icon-eye" [name]="passwordIcon" (click)="onToggleShowPassword()"></ion-icon>
+						</ion-item>
 
-				@if (loginForm.get('password')?.errors?.['minlength']) {
-					<span class="span-error">Your password should be strong with at least 8 characters.</span>
-				}
-			}
+						@if (loginForm.get('password')?.dirty) {
+						@if (loginForm.get('password')?.errors?.['required']) {
+						<span class="span-error">This field is required</span>
+						}
 
-			<div class="container-button">
-				<ion-button size="medium" [disabled]="loginForm.invalid" (click)="onSignIn()">
-					Sign Up
-				</ion-button>
-			</div>
-			
-			<div class="register-link">
-				<a (click)="navigateToRegister()">Don't have an account? Register here</a>
-			</div>
-		</form>
-	</div>
+						@if (loginForm.get('password')?.errors?.['weakPassword']) {
+						<span class="span-error">Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character</span>
+						}
+						}
+
+						<div class="container-button">
+							<ion-button size="medium" [disabled]="loginForm.invalid" (click)="onSignIn()">
+								Sign In
+							</ion-button>
+						</div>
+
+						<div class="register-link">
+							<a (click)="navigateToRegister()">Don't have an account? Register here</a>
+						</div>
+					</form>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>

@@ -1,9 +1,78 @@
 import { Injectable } from '@angular/core';
+import { getDatabase, ref, set, onValue } from 'firebase/database';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ICar } from 'src/app/models/car.interface';
+
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class CarService {
 
-  constructor() { }
+	constructor() { }
+
+	public async saveCar(car: ICar, frontPhoto: File, backPhoto: File): Promise<void> {
+		try {
+			const storage = getStorage();
+
+			const frontPhotoName = `front_${car.licensePlate}.jpg`;
+			const backPhotoName = `back_${car.licensePlate}.jpg`;
+
+			const frontPhotoRef = storageRef(storage, `cars/${frontPhotoName}`);
+			const backPhotoRef = storageRef(storage, `cars/${backPhotoName}`);
+
+			await uploadBytes(frontPhotoRef, frontPhoto);
+			await uploadBytes(backPhotoRef, backPhoto);
+
+			const frontPhotoUrl = await getDownloadURL(frontPhotoRef);
+			const backPhotoUrl = await getDownloadURL(backPhotoRef);
+
+			const carRef = ref(getDatabase(), 'cars/' + car.licensePlate);
+
+			await set(carRef, {
+				licensePlate: car.licensePlate,
+				brand: car.brand,
+				model: car.model,
+				frontPhotoUrl: frontPhotoUrl,
+				backPhotoUrl: backPhotoUrl,
+			});
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	public getAllCars(): Promise<ICar[]> {
+		return new Promise((resolve, reject) => {
+			const carsRef = ref(getDatabase(), 'cars/');
+			onValue(carsRef, (snapshot) => {
+				const data = snapshot.val();
+				const cars: ICar[] = [];
+				if (data) {
+					Object.entries(data).forEach(([key, value]) => {
+						cars.push(value as ICar);
+					});
+				}
+				resolve(cars);
+			}, (error) => {
+				reject(error);
+			});
+		});
+	}
+
+	public getCarByLicensePlate(licensePlate: string): Promise<ICar | null> {
+		return new Promise((resolve, reject) => {
+			const carRef = ref(getDatabase(), 'cars/' + licensePlate);
+			onValue(carRef, (snapshot) => {
+				const data = snapshot.val();
+				if (data) {
+					resolve(data as ICar);
+				} else {
+					resolve(null);
+				}
+			}, (error) => {
+				reject(error);
+			});
+		});
+	}
+
 }

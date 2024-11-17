@@ -2,24 +2,34 @@
 
 
 .login {
-	padding: 16px;
-	text-align: center;
 
-	ion-item {
-		margin-bottom: 12px;
+	.form-container {
+		background-color: var(--ion-color-light);
+		padding: 40px;
+		border-radius: 8px;
 	}
 
-	// Style de l'icône de l'œil pour le mot de passe
+	ion-item {
+		margin-bottom: 30px;
+
+		&+.span-error {
+			margin-top: -25px;
+			margin-bottom: 10px;
+		}
+
+	}
+
+	form:last-child>ion-item>ion-input {
+		width: 95%;
+	}
+
 	#icon-eye {
 		display: block;
 		position: absolute;
 		right: 15px;
-		top: 26px;
-		cursor: pointer;
-		color: $icon-color;
+		top: 20px;
 	}
 
-	// Styles pour le conteneur du bouton
 	.container-button {
 		display: flex;
 		justify-content: center;
@@ -27,42 +37,12 @@
 
 		ion-button {
 			width: 80%;
+			margin-bottom: 20px;
 		}
 	}
 
-	// Style pour les messages d'erreur
-	.span-error {
-		color: $error-color;
-		font-size: 0.85rem;
-		margin-top: 5px;
-		display: block;
-		text-align: left;
-	}
-
-	// Styles pour le lien d'inscription
 	.register-link {
-		margin-top: 20px;
-
-		a {
-			color: $primary-color;
-			text-decoration: underline;
-			cursor: pointer;
-			font-size: 0.9rem;
-
-			&:hover {
-				color: $primary-hover-color;
-			}
-		}
+		text-align: center;
 	}
 
-	// Responsive pour les écrans plus petits
-	@media (max-width: 768px) {
-		padding: 10px;
-
-		.container-button {
-			ion-button {
-				width: 90%;
-			}
-		}
-	}
 }

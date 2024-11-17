@@ -1,4 +1,23 @@
-$primary-color: #3880ff;
-$primary-hover-color: #4c8dff;
-$error-color: #ff4d4f;
-$icon-color: #6c757d;
+ion-content {
+	--background: none;
+	background-image: url('/assets/web-background.jpg');
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+a {
+	color: var(--ion-color-primary-tint);
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.span-error {
+	color: var(--ion-color-danger);
+	font-size: 14px;
+	display: block;
+}

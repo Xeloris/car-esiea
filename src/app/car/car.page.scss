@@ -1,0 +1,43 @@
+@import 'src/app/app.component.scss';
+
+.cars {
+
+	ion-card {
+		cursor: pointer;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		border-radius: 8px;
+
+		&:hover {
+			transform: scale(1.02);
+		}
+
+		ion-img {
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+			height: 300px;
+			object-fit: cover;
+		}
+
+		ion-card-header {
+			text-align: center;
+			padding: 10px;
+
+			ion-card-title {
+				font-size: 1.2rem;
+				font-weight: bold;
+			}
+
+		}
+	}
+}
+
+ion-icon {
+	padding: 20px;
+	font-size: 20px;
+	cursor: pointer;
+
+	&:hover {
+		color: var(--ion-color-primary);
+		transform: scale(1.1);
+	}
+}

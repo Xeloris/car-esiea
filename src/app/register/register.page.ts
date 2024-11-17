@@ -7,6 +7,8 @@ import { eyeOffOutline, eyeOutline } from "ionicons/icons";
 import { AuthenticationService } from "../core/services/authentication/authentication.service";
 import { Router } from "@angular/router";
 import { IUser } from '../models/user.interface';
+import { emailValidator, fullNameValidator, passwordMatchValidator, phoneNumberValidator, strongPasswordValidator } from '../core/validators/validators';
+import { ToastController } from '@ionic/angular/standalone';
 
 @Component({
 	selector: 'app-register',
@@ -21,20 +23,27 @@ import { IUser } from '../models/user.interface';
 	]
 })
 export class RegisterPage implements OnInit {
+
 	public registerForm = new FormGroup({
-		fullName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-		email: new FormControl('', [Validators.required, Validators.email]),
-		password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+		fullName: new FormControl('', [Validators.required, fullNameValidator()]),
+		email: new FormControl('', [Validators.required, emailValidator()]),
+		phoneNumber: new FormControl('', [Validators.required, phoneNumberValidator()]),
+		password: new FormControl('', [Validators.required, strongPasswordValidator()]),
+		confirmPassword: new FormControl('', [Validators.required, passwordMatchValidator()]),
 	});
+
 	public passwordType = 'password';
+	public confirmPasswordType = 'password';
 	public passwordIcon = 'eye-outline';
+	public confirmPasswordIcon = 'eye-outline';
 
 	constructor(private authenticationService: AuthenticationService,
-				private router: Router) {
-		addIcons({eyeOutline, eyeOffOutline});
+		private router: Router,
+		private toastController: ToastController) {
+		addIcons({ eyeOutline, eyeOffOutline });
 	}
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 	public onToggleShowPassword(): void {
 		if (this.passwordType === 'password') {
@@ -46,20 +55,56 @@ export class RegisterPage implements OnInit {
 		}
 	}
 
+	public onToggleShowConfirmPassword(): void {
+		if (this.confirmPasswordType === 'password') {
+			this.confirmPasswordType = 'text';
+			this.confirmPasswordIcon = 'eye-off-outline';
+		} else {
+			this.confirmPasswordType = 'password';
+			this.confirmPasswordIcon = 'eye-outline';
+		}
+	}
+
 	public onSignUp(): void {
 		this.authenticationService.signUpWithEmailAndPassword(this.registerForm.value as unknown as IUser)
 			.then((userCreated: boolean | unknown) => {
-				console.log(userCreated);
-				if(userCreated) {
+				if (userCreated) {
 					this.router.navigate(['car']);
 				}
 			}).catch((error) => {
-			console.log(error);
-		})
+				const errorCode = (error as { code: string }).code;
+				const errorMessage = this.getErrorMessage(errorCode);
+				this.errorToast(errorMessage);
+			})
 	}
 
 	public navigateToLogin(): void {
 		this.router.navigate(['/login']);
+	}
+
+	private getErrorMessage(errorCode: string): string {
+		switch (errorCode) {
+			case 'auth/email-already-in-use':
+				return 'An account with the same email address exist.';
+			default:
+				return 'An error occurred. Please try again later.';
+		}
+	}
+
+	private async errorToast(errorMessage: string): Promise<void> {
+		const toast = await this.toastController.create({
+			message: errorMessage,
+			duration: 3000,
+			position: 'top',
+			color: 'danger',
+			buttons: [
+				{
+					text: 'Dismiss',
+					role: 'cancel'
+				}
+			]
+		});
+		await toast.present();
 	}
 
 }

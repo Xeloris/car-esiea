@@ -1,31 +1,78 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>Créer une voiture</ion-title>
+		<ion-title>Create Car</ion-title>
+		<ion-icon slot="end" name="return-up-back-outline" (click)="onSeeCars()"></ion-icon>
+		<ion-icon slot="end" name="power-outline" (click)="onLogout()"></ion-icon>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-	<form (ngSubmit)="saveCar()">
-		<ion-item>
-			<ion-label position="floating">Marque</ion-label>
-			<ion-input [(ngModel)]="car.brand" name="brand"></ion-input>
-		</ion-item>
-		<ion-item>
-			<ion-label position="floating">Modèle</ion-label>
-			<ion-input [(ngModel)]="car.model" name="model"></ion-input>
-		</ion-item>
-		<ion-item>
-			<ion-label position="floating">Plaque</ion-label>
-			<ion-input [(ngModel)]="car.plate" name="plate"></ion-input>
-		</ion-item>
-		<ion-item>
-			<ion-label>Photo avant</ion-label>
-			<input type="file" (change)="onFileChange($event, 'photoFront')" />
-		</ion-item>
-		<ion-item>
-			<ion-label>Photo arrière</ion-label>
-			<input type="file" (change)="onFileChange($event, 'photoRear')" />
-		</ion-item>
-		<ion-button expand="full" type="submit">Enregistrer</ion-button>
-	</form>
+<ion-content [fullscreen]="true" class="create-car">
+	<ion-grid>
+		<ion-row class="ion-justify-content-center ion-align-items-center" style="height: 100vh;">
+			<ion-col size="12" size-md="8" size-lg="6">
+				<div class="form-container">
+					<form [formGroup]="carForm" (ngSubmit)="onSaveCar()">
+						<ion-item>
+							<ion-input label="Brand" labelPlacement="stacked" placeholder="Toyota"
+								formControlName="brand"></ion-input>
+						</ion-item>
+						@if (carForm.get('brand')?.dirty) {
+						@if (carForm.get('brand')?.errors?.['required']) {
+						<span class="span-error">Brand is required</span>
+						}
+						}
+
+						<ion-item>
+							<ion-input label="Model" labelPlacement="stacked" placeholder="Yaris"
+								formControlName="model"></ion-input>
+						</ion-item>
+						@if (carForm.get('model')?.dirty) {
+						@if (carForm.get('model')?.errors?.['required']) {
+						<span class="span-error">Model is required</span>
+						}
+						}
+
+						<ion-item>
+							<ion-input label="License Plate" labelPlacement="stacked" placeholder="AB-123-CD"
+								formControlName="licensePlate"></ion-input>
+						</ion-item>
+						@if (carForm.get('licensePlate')?.dirty) {
+						@if (carForm.get('licensePlate')?.errors?.['required']) {
+						<span class="span-error">License plate is required</span>
+						}
+						@else if (carForm.get('licensePlate')?.errors?.['invalidPlateNumber']) {
+							<span class="span-error">License plate is not valid</span>
+						}
+						}
+
+						<ion-item>
+							<ion-label position="stacked">Front Photo</ion-label>
+							<div class="photo-actions">
+								<ion-button expand="block" (click)="capturePhoto('frontPhoto')">Take Photo</ion-button>
+								<ion-button expand="block" (click)="uploadPhoto('frontPhoto')">Upload Photo</ion-button>
+							</div>
+							@if (previewFrontPhoto) {
+							<img [src]="previewFrontPhoto" alt="Front Photo Preview" class="photo-preview">
+							}
+						</ion-item>
+
+						<ion-item>
+							<ion-label position="stacked">Back Photo</ion-label>
+							<div class="photo-actions">
+								<ion-button expand="block" (click)="capturePhoto('backPhoto')">Take Photo</ion-button>
+								<ion-button expand="block" (click)="uploadPhoto('backPhoto')">Upload Photo</ion-button>
+							</div>
+							@if (previewBackPhoto) {
+							<img [src]="previewBackPhoto" alt="Back Photo Preview" class="photo-preview">
+							}
+						</ion-item>
+
+						<div class="container-button">
+							<ion-button expand="full" type="submit" [disabled]="carForm.invalid">Save Car</ion-button>
+						</div>
+					</form>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
 </ion-content>

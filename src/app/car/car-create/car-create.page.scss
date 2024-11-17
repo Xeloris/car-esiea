@@ -1,0 +1,60 @@
+@import 'src/app/app.component.scss';
+
+.create-car {
+
+	.form-container {
+		background-color: var(--ion-color-light);
+		padding: 40px;
+		border-radius: 8px;
+	}
+
+	ion-item {
+		margin-bottom: 30px;
+
+		&+.span-error {
+			margin-top: -25px;
+			margin-bottom: 10px;
+			color: var(--ion-color-danger);
+		}
+	}
+
+	form:last-child>ion-item>ion-input {
+		width: 95%;
+	}
+
+	.container-button {
+		display: flex;
+		justify-content: center;
+		margin-top: 1rem;
+
+		ion-button {
+			width: 80%;
+			margin-bottom: 20px;
+		}
+	}
+
+	.photo-actions {
+		display: flex;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.photo-preview {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		margin-bottom: 10px;
+	}
+
+}
+
+ion-icon {
+	padding: 20px;
+	font-size: 20px;
+	cursor: pointer;
+
+	&:hover {
+		color: var(--ion-color-primary);
+		transform: scale(1.1);
+	}
+}

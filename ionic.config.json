@@ -1,7 +1,7 @@
 {
-	"name": "car-esiea",
-	"integrations": {
-		"capacitor": {}
-	},
-	"type": "angular-standalone"
+  "name": "car-esiea",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
 }

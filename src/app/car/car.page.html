@@ -1,21 +1,24 @@
 <ion-header>
 	<ion-toolbar>
-		<ion-title>Liste des voitures</ion-title>
-		<ion-buttons slot="end">
-			<ion-button (click)="onCreationCar()">Ajouter</ion-button>
-		</ion-buttons>
+		<ion-title>Cars</ion-title>
+		<ion-button slot="end" (click)="onCreationCar()">Add car</ion-button>
+		<ion-icon slot="end" name="power-outline" (click)="onLogout()"></ion-icon>
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-	<ion-list>
-		<ion-item *ngFor="let car of cars" (click)="seeDetailsCar(car)">
-			<ion-thumbnail slot="start">
-				<img [src]="car.photo" />
-			</ion-thumbnail>
-			<ion-label>
-				<h2>{{ car.brand }} - {{ car.model }}</h2>
-			</ion-label>
-		</ion-item>
-	</ion-list>
+<ion-content [fullscreen]="true" class="cars">
+	<ion-grid>
+		<ion-row>
+			@for(car of cars; track car) {
+			<ion-col size="12" size-lg="2">
+				<ion-card (click)="seeDetailsCar(car)">
+					<ion-img [src]="car.frontPhotoUrl" alt="{{ car.brand }} {{ car.model }}"></ion-img>
+					<ion-card-header>
+						<ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
+					</ion-card-header>
+				</ion-card>
+			</ion-col>
+			}
+		</ion-row>
+	</ion-grid>
 </ion-content>
