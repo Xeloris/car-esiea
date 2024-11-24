@@ -11,34 +11,38 @@ export class CarService {
 
 	constructor() { }
 
-	public async saveCar(car: ICar, frontPhoto: File, backPhoto: File): Promise<void> {
-		try {
-			const storage = getStorage();
+	public saveCar(car: ICar, frontPhoto: File, backPhoto: File): Promise<void> {
+		const storage = getStorage();
 
-			const frontPhotoName = `front_${car.licensePlate}.jpg`;
-			const backPhotoName = `back_${car.licensePlate}.jpg`;
+		const frontPhotoName = `front_${car.licensePlate}.jpg`;
+		const backPhotoName = `back_${car.licensePlate}.jpg`;
 
-			const frontPhotoRef = storageRef(storage, `cars/${frontPhotoName}`);
-			const backPhotoRef = storageRef(storage, `cars/${backPhotoName}`);
+		const frontPhotoRef = storageRef(storage, `cars/${frontPhotoName}`);
+		const backPhotoRef = storageRef(storage, `cars/${backPhotoName}`);
 
-			await uploadBytes(frontPhotoRef, frontPhoto);
-			await uploadBytes(backPhotoRef, backPhoto);
-
-			const frontPhotoUrl = await getDownloadURL(frontPhotoRef);
-			const backPhotoUrl = await getDownloadURL(backPhotoRef);
-
-			const carRef = ref(getDatabase(), 'cars/' + car.licensePlate);
-
-			await set(carRef, {
-				licensePlate: car.licensePlate,
-				brand: car.brand,
-				model: car.model,
-				frontPhotoUrl: frontPhotoUrl,
-				backPhotoUrl: backPhotoUrl,
+		return uploadBytes(frontPhotoRef, frontPhoto)
+			.then(() => {
+				return uploadBytes(backPhotoRef, backPhoto);
+			})
+			.then(() => {
+				return Promise.all([
+					getDownloadURL(frontPhotoRef),
+					getDownloadURL(backPhotoRef)
+				]);
+			})
+			.then(([frontPhotoUrl, backPhotoUrl]) => {
+				const carRef = ref(getDatabase(), 'cars/' + car.licensePlate);
+				return set(carRef, {
+					licensePlate: car.licensePlate,
+					brand: car.brand,
+					model: car.model,
+					frontPhotoUrl: frontPhotoUrl,
+					backPhotoUrl: backPhotoUrl,
+				});
+			})
+			.catch((error) => {
+				throw error;
 			});
-		} catch (error) {
-			throw error;
-		}
 	}
 
 	public getAllCars(): Promise<ICar[]> {
